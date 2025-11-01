@@ -4,6 +4,3 @@
 #include "Modules/ModuleManager.h"
 
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, Game011125, "Game011125" );
-
-DEFINE_LOG_CATEGORY(LogGame011125)
- 
