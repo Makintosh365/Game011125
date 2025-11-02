@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Entity.h"
 #include "Enemy.generated.h"
+
 class AHero;
 
 UCLASS(Abstract, Blueprintable)
@@ -13,24 +14,22 @@ class GAME011125_API AEnemy : public AEntity
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
+
 	AEnemy();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	// Hero pointer
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "References")
-	AHero* HeroTarget;
+	AHero* HeroTarget = nullptr;
 
 	UFUNCTION(BlueprintCallable, Category = "References")
 	void SetHeroTarget(AHero* NewHero);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	float FollowDistance = 150.0f;   
+
+protected:
+	virtual void BeginPlay() override;
+
+
 };

@@ -1,50 +1,72 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Enemy.cpp
+// -----------------------------------------------------------------------------
 
 #include "Enemy.h"
-#include "Hero.h"  
+#include "Hero.h"
 #include "Kismet/GameplayStatics.h"
 
-
-// Sets default values
 AEnemy::AEnemy()
 {
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-// Called when the game starts or when spawned
+//------------------------------------------------------------------------------
+// --- BeginPlay
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 
 	if (HeroTarget == nullptr)
 	{
-		APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-		if (PlayerPawn)
+		AHero* GlobalHero = AHero::GetCurrentHero();
+		if (GlobalHero)
 		{
-			AHero* FoundHero = Cast<AHero>(PlayerPawn);
-			if (FoundHero)
+			HeroTarget = GlobalHero;
+		}
+		else
+		{
+			AActor* Found = UGameplayStatics::GetActorOfClass(GetWorld(), AHero::StaticClass());
+			if (Found)
 			{
-				HeroTarget = FoundHero;
+				HeroTarget = Cast<AHero>(Found);
 			}
 		}
 	}
+
 }
 
-// Called every frame
+//------------------------------------------------------------------------------
+// --- Tick
 void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	// Если цели нет или она уже уничтожена — ничего не делаем
+	if (!HeroTarget || !IsValid(HeroTarget))
+	{
+		return;
+	}
+
+	const FVector MyLocation = GetActorLocation();
+	const FVector HeroLocation = HeroTarget->GetActorLocation();
+
+	FVector ToHero = HeroLocation - MyLocation;
+	const float DistanceToHero = ToHero.Size();
+
+	//  DIE
+	if (DistanceToHero >= FollowDistance)
+	{
+		OnDeath();
+	}
+
+	ToHero.Normalize();
+	const FVector DeltaMove = ToHero * Stats.CurrentSpeed * DeltaTime;
+
+	// AddActorWorldOffset with sweep = true so we don't walk through walls
+	AddActorWorldOffset(DeltaMove, true);
 }
 
-// Called to bind functionality to input
-void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-}
 void AEnemy::SetHeroTarget(AHero* NewHero)
 {
 	HeroTarget = NewHero;
 }
-
