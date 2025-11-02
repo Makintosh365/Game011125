@@ -4,6 +4,7 @@
 
 #include "GameObject.h"
 #include "Components/SphereComponent.h"
+#include "Interfaces/ICanTakeDamage.h"
 
 
 ADamager::ADamager()
