@@ -71,9 +71,9 @@ bool AEntity::UseBuff()
             continue;
         }
 
-        maxHpMul  *= Buff->hpBonus;     
-        speedMul  *= Buff->speedBonus;  
-        damageMul *= Buff->damageBonus; 
+        maxHpMul  += Buff->hpBonus;     
+        speedMul  += Buff->speedBonus;  
+        damageMul += Buff->damageBonus; 
     }
 
     Stats.CurrentMaxHP  = Stats.BaseMaxHP * maxHpMul;
