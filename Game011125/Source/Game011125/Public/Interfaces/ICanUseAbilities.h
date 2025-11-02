@@ -11,10 +11,10 @@ class UCanUseAbilities : public UInterface
 	GENERATED_BODY()
 };
 
-class ICanUseAbilities
+class GAME011125_API ICanUseAbilities
 {
 	GENERATED_BODY()
 
 public:
-	virtual bool UseCurrentAbility();
+	virtual bool UseCurrentAbility() { return false; };
 };
