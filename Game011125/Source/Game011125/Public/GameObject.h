@@ -26,9 +26,9 @@ public:
 	FStats Stats;
 
 	//----------------------------------------------------------------------
-	// --- Проверка жив ли объект
+	// --- Проверка жив ли объект 
 	UFUNCTION(BlueprintCallable, Category = "Combat")
-	bool IsAlive() const { return Stats.bIsAlive; }
+	bool IsAlive() const { return Stats.CurrentHP >= 0 ; }
 
 
 	~AGameObject();
