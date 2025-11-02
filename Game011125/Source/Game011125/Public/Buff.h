@@ -31,20 +31,4 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Buff")
 	float damageBonus;
-
-	//logical
-
-	//The entity on which this buff "hangs"
-	UPROPERTY(BlueprintReadOnly, Category = "Buff")
-	AEntity* OwnerEntity;
-
-	//Called when the buff is applied to an entity
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Buff")
-	void Apply(AEntity* TargetEntity);
-	virtual void Apply_Implementation(AEntity* TargetEntity);
-
-	//Called when the buff is removed from the entity (for example, after the time has expired)
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Buff")
-	void Remove();
-	virtual void Remove_Implementation();
 };
