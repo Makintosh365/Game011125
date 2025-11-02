@@ -16,5 +16,5 @@ class GAME011125_API ICanUseAbilities
 	GENERATED_BODY()
 
 public:
-	virtual void UseCurrentAbility() { };
+	virtual bool UseCurrentAbility() { return false; };
 };

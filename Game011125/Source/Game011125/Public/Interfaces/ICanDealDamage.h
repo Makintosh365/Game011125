@@ -19,5 +19,5 @@ class GAME011125_API ICanDealDamage
 	GENERATED_BODY()
 
 public:
-	virtual void DealDamage(AGameObject* target) { };
+	virtual bool DealDamage(AGameObject* target) { return false; };
 };

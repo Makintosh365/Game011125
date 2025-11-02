@@ -16,5 +16,5 @@ class GAME011125_API ICanTakeDamage
 	GENERATED_BODY()
 
 public:
-	virtual void TakeDamage(float damage) { };
+	virtual bool TakeDamage(float damage) { return false; };
 };

@@ -16,5 +16,5 @@ class GAME011125_API ICanUseBuffs
 	GENERATED_BODY()
 
 public:
-	virtual void UseBuff() { };
+	virtual bool UseBuff() { return false; };
 };
