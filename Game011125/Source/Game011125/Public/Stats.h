@@ -48,11 +48,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats|XP")
     int32 TotalXP = 0;
 
-    // текущий уровень юнита
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats|XP")
     int32 Level = 1;
 
-    // сколько опыта даст убийство Ё“ќ√ќ юнита
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats|XP")
     int32 XPRewardOnDeath = 10;
 
