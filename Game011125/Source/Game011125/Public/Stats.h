@@ -99,4 +99,3 @@ static inline FStats MakeEnemyDefaultStats()
 
     return S;
 }
-s
