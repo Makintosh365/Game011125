@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "Stats.generated.h"
 
-// Структура характеристик игрового объекта
+// РЎС‚СЂСѓРєС‚СѓСЂР° С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРє РёРіСЂРѕРІРѕРіРѕ РѕР±СЉРµРєС‚Р°
 USTRUCT(BlueprintType)
 struct FStats
 {
@@ -12,7 +12,7 @@ struct FStats
 public:
 
 //--------------------------------------------------------------------------
-// --- Базовые значения (то, что задаёт тип юнита)
+// --- Р‘Р°Р·РѕРІС‹Рµ Р·РЅР°С‡РµРЅРёСЏ (С‚Рѕ, С‡С‚Рѕ Р·Р°РґР°С‘С‚ С‚РёРї СЋРЅРёС‚Р°)
 //--------------------------------------------------------------------------
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
@@ -25,7 +25,7 @@ public:
     float BaseSpeed = 400.f;
 
 //--------------------------------------------------------------------------
-// --- Текущие значения (то, что реально сейчас в бою)
+// --- РўРµРєСѓС‰РёРµ Р·РЅР°С‡РµРЅРёСЏ (С‚Рѕ, С‡С‚Рѕ СЂРµР°Р»СЊРЅРѕ СЃРµР№С‡Р°СЃ РІ Р±РѕСЋ)
 //--------------------------------------------------------------------------
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
@@ -40,7 +40,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
     float CurrentSpeed = 400.f;
 
-    // Восстановить здоровье до максимума
+    // Р’РѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ Р·РґРѕСЂРѕРІСЊРµ РґРѕ РјР°РєСЃРёРјСѓРјР°
     void ResetHP()
     {
         CurrentHP = CurrentMaxHP;
@@ -48,7 +48,7 @@ public:
 
 };
 
-static inline FStats MakePlayerDefaultStats() //  дефолтные значения
+static inline FStats MakePlayerDefaultStats() //  РґРµС„РѕР»С‚РЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ
 {
     FStats S;
     S.BaseMaxHP = 120.f;
@@ -58,11 +58,10 @@ static inline FStats MakePlayerDefaultStats() //  дефолтные значения
     S.CurrentDamage = 15.f;
     S.BaseSpeed = 500.f;
     S.CurrentSpeed = 500.f;
-    S.bIsAlive = true;
     return S;
 }
 
-static inline FStats MakeEnemyDefaultStats() // дефолтные значения
+static inline FStats MakeEnemyDefaultStats() // РґРµС„РѕР»С‚РЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ
 {
     FStats S;
     S.BaseMaxHP = 60.f;
@@ -72,6 +71,5 @@ static inline FStats MakeEnemyDefaultStats() // дефолтные значения
     S.CurrentDamage = 7.f;
     S.BaseSpeed = 250.f;
     S.CurrentSpeed = 250.f;
-    S.bIsAlive = true;
     return S;
 }
