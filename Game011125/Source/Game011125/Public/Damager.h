@@ -16,20 +16,24 @@ class AGameObject;
  */
 UCLASS(Abstract)
 class GAME011125_API ADamager :
-	public AActor,	// Replace with AGameObject
+	public AActor,
 	public ICanDealDamage
 {
 	GENERATED_BODY()
 
 public:
-	// ADamager();
+	ADamager();
 
+protected:
+	virtual void BeginPlay() override;
+
+public:
 	virtual void Tick(float DeltaSeconds) override;
 
 	bool DealDamage(AGameObject* target) override;
 
-	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default Values")
-	// TObjectPtr<USphereComponent> CollisionComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default Values")
+	TObjectPtr<USphereComponent> CollisionComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Default Values", meta = (ClampMin = 0.0f))
 	float Damage = 0.0f;
@@ -47,16 +51,11 @@ private:
 	float timeCurrent;
 	TSet<ICanTakeDamage*> collidingObjects;
 
-	// UFUNCTION()
-	// void OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
-	// 								  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
-	// 								  bool bFromSweep, const FHitResult& SweepResult);
-	//
-	// UFUNCTION()
-	// void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, 
-	// 						 UPrimitiveComponent* OtherComp, FVector NormalImpulse, 
-	// 						 const FHitResult& Hit);
-
-	bool OnCooldown() const;
+	UFUNCTION()
+	void OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
+								  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
+								  bool bFromSweep, const FHitResult& SweepResult);
+	
+	bool IsOnCooldown() const;
 	void ResetTimer();
 };
