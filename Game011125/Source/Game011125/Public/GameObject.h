@@ -17,28 +17,28 @@ public:
 	AGameObject();
 
 	//--------------------------------------------------------------------------
-	// --- Тик
+	// --- Per-frame update
 	virtual void Tick(float DeltaTime) override;
 
-	//----------------------------------------------------------------------
-	// --- Характеристики
+	//--------------------------------------------------------------------------
+	// --- Character / actor stats
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	FStats Stats;
 
-	//----------------------------------------------------------------------
-	// --- Проверка жив ли объект 
+	//--------------------------------------------------------------------------
+	// --- Check if the object is currently alive
 	UFUNCTION(BlueprintCallable, Category = "Combat")
-	bool IsAlive() const { return Stats.CurrentHP >= 0 ; }
+	bool IsAlive() const { return Stats.CurrentHP > 0; }
 
 
 	~AGameObject();
 protected:
 	//--------------------------------------------------------------------------
-	// --- Инициализация при появлении в мире
+	// --- Called when the actor is spawned or the game starts
 	virtual void BeginPlay() override;
 
-	//-------------------------------------------------------------------------- 
-	// --- Смерть объекта (по умолчанию просто уничтожаем)
+	//--------------------------------------------------------------------------
+	// --- Death handling (by default just destroy the actor)
 	UFUNCTION(BlueprintNativeEvent, Category = "Combat")
 	void OnDeath();
 

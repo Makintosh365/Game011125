@@ -9,12 +9,11 @@ AGameObject::AGameObject()
 AGameObject::~AGameObject() = default;
 
 //--------------------------------------------------------------------------
-// --- Инициализация при появлении в мире
+// --- Called when the game starts or when spawned
 void AGameObject::BeginPlay()
 {
     Super::BeginPlay();
 
-    // приводим статы в валидное состояние
     Stats.ResetHP();
 }
 
@@ -24,7 +23,7 @@ void AGameObject::Tick(float DeltaTime)
 }
 
 //--------------------------------------------------------------------------
-// --- Смерть объекта (по умолчанию просто уничтожаем)
+// --- Default death handler: just destroy the actor
 void AGameObject::OnDeath_Implementation()
 {
     Destroy();
