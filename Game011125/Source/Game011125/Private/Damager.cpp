@@ -4,15 +4,20 @@
 
 #include "GameObject.h"
 #include "Components/SphereComponent.h"
-//
-//
-// ADamager::ADamager()
-// {
-// 	PrimaryActorTick.bCanEverTick = true;
-// 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionSphere"));
-// 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ADamager::OnCollisionStartCallback);
-// 	CollisionComponent->OnComponentHit.AddDynamic(this, &ADamager::OnHit);
-// }
+
+
+ADamager::ADamager()
+{
+	PrimaryActorTick.bCanEverTick = true;
+	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionSphere"));
+	RootComponent = CollisionComponent;
+}
+
+void ADamager::BeginPlay()
+{
+	Super::BeginPlay();
+	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ADamager::OnCollisionStartCallback);
+}
 
 void ADamager::Tick(float DeltaSeconds)
 {
@@ -65,22 +70,16 @@ bool ADamager::DealDamage(AGameObject* target)
 	return false;
 }
 
-// void ADamager::OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
-// 									  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
-// 									  bool bFromSweep, const FHitResult& SweepResult)
-// {
-// 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Damager collision callback");
-// 	if (AGameObject* target = Cast<AGameObject>(OtherActor))
-// 		DealDamage(target);
-// }
-//
-// void ADamager::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-// 	FVector NormalImpulse, const FHitResult& Hit)
-// {
-// 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Damager hit callback");
-// }
+void ADamager::OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
+									  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
+									  bool bFromSweep, const FHitResult& SweepResult)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Damager collision callback");
+	if (AGameObject* target = Cast<AGameObject>(OtherActor))
+		DealDamage(target);
+}
 
-bool ADamager::OnCooldown() const
+bool ADamager::IsOnCooldown() const
 {
 	return timeCurrent < Cooldown;
 }
