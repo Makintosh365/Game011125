@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Entity.h"
 #include "Enemy.generated.h"
+
 class AHero;
 
 UCLASS(Abstract, Blueprintable)
@@ -13,24 +14,32 @@ class GAME011125_API AEnemy : public AEntity
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
+	//--------------------------------------------------------------------------
+	// --- Конструктор
 	AEnemy();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
+	//--------------------------------------------------------------------------
+	// --- Тик
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	// Hero pointer
+	//--------------------------------------------------------------------------
+	// --- Цель (лидер, не игрок)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "References")
-	AHero* HeroTarget;
+	AHero* HeroTarget = nullptr;
 
+	//--------------------------------------------------------------------------
+	// --- Задать цель из блюпринта/кода
 	UFUNCTION(BlueprintCallable, Category = "References")
 	void SetHeroTarget(AHero* NewHero);
+
+	//--------------------------------------------------------------------------
+	// --- Параметры движения (вот тут самое важное — тут есть FollowDistance!)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	float FollowDistance = 150.0f;   // на каком расстоянии останавливаемся
+
+protected:
+	//--------------------------------------------------------------------------
+	// --- Жизненный цикл
+	virtual void BeginPlay() override;
+
+
 };
