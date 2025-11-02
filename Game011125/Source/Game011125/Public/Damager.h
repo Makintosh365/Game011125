@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Components/SphereComponent.h"
 #include "Interfaces/ICanDealDamage.h"
-#include "Interfaces/ICanTakeDamage.h"
 #include "Damager.generated.h"
 
 class AGameObject;
@@ -30,7 +29,7 @@ protected:
 public:
 	virtual void Tick(float DeltaSeconds) override;
 
-	bool DealDamage(AGameObject* target) override;
+	bool DealDamage(AGameObject* Target) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default Values")
 	TObjectPtr<USphereComponent> CollisionComponent;
@@ -44,18 +43,29 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Default Values")
 	bool PeriodicDamage = false;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Default Values", meta = (ClampMin = 0.0f))
+	UPROPERTY(EditDefaultsOnly, Category = "Default Values", meta = (ClampMin = 0.01f))
 	float Cooldown = 1.0f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Default Values", meta = (ClampMin = 0.01f))
+	float Duration = 5.0f;
+
 private:
-	float timeCurrent;
-	TSet<ICanTakeDamage*> collidingObjects;
+	float timeFromLastDamage;
+	float timeFromStart;
+	bool bDamageStarted = false;
+	
+	TSet<AGameObject*> damagedObjects;
 
 	UFUNCTION()
 	void OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
 								  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
 								  bool bFromSweep, const FHitResult& SweepResult);
 	
+	UFUNCTION()
+	void OnCollisionEndCallback(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
+									UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	bool LifetimeExpired() const;
 	bool IsOnCooldown() const;
 	void ResetTimer();
 };

@@ -17,55 +17,54 @@ void ADamager::BeginPlay()
 {
 	Super::BeginPlay();
 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ADamager::OnCollisionStartCallback);
+	CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ADamager::OnCollisionEndCallback);
 }
 
 void ADamager::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	timeCurrent += DeltaSeconds;
+
+	if (!bDamageStarted)
+		return;
+	
+	if (LifetimeExpired())
+	{
+		Destroy();
+		return;
+	}
+
+	if (!PeriodicDamage)
+	{
+		for (AGameObject* target : damagedObjects)
+			DealDamage(target);
+		Destroy();
+		return;
+	}
+	else
+	{
+		if (!IsOnCooldown())
+		{
+			for (AGameObject* target : damagedObjects)
+				DealDamage(target);
+
+			ResetTimer();
+		}
+	}
+
+	timeFromLastDamage += DeltaSeconds;
+	timeFromStart += DeltaSeconds;
 }
 
-bool ADamager::DealDamage(AGameObject* target)
+bool ADamager::DealDamage(AGameObject* Target)
 {
-	ICanDealDamage::DealDamage(target);
-
-	if (ICanTakeDamage* damagedObject = Cast<ICanTakeDamage>(target))
+	ICanDealDamage::DealDamage(Target);
+	
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Damager deal damage");
+	
+	if (ICanTakeDamage* damageable = Cast<ICanTakeDamage>(Target))
 	{
-		if (Splash)
-		{
-			if (PeriodicDamage)
-			{
-				if (collidingObjects.Contains(damagedObject))
-				{
-					collidingObjects.Reset();
-					ResetTimer();
-				}
-				else
-				{
-					damagedObject->TakeDamage(Damage);
-					collidingObjects.Add(damagedObject);
-				}
-			}
-			else
-			{
-				if (collidingObjects.Contains(damagedObject))
-				{
-					Destroy();
-					return true;
-				}
-				else
-				{
-					damagedObject->TakeDamage(Damage);
-					collidingObjects.Add(damagedObject);
-				}
-			}
-		}
-		else
-		{
-			damagedObject->TakeDamage(Damage);
-			Destroy();
-			return true;
-		}
+		damageable->TakeDamage(Damage);
+		return true;
 	}
 	return false;
 }
@@ -74,17 +73,40 @@ void ADamager::OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AAc
 									  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
 									  bool bFromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Damager collision callback");
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, "Damager collision start");
 	if (AGameObject* target = Cast<AGameObject>(OtherActor))
-		DealDamage(target);
+	{
+		if (!Splash)
+		{
+			DealDamage(target);
+			Destroy();
+		}
+		else
+		{
+			damagedObjects.Add(target);
+			bDamageStarted = true;
+		}
+	}
+}
+
+void ADamager::OnCollisionEndCallback(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
+									UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, "Damager collision end");
+	damagedObjects.Remove(Cast<AGameObject>(OtherActor));
+}
+
+bool ADamager::LifetimeExpired() const
+{
+	return timeFromStart >= Duration;
 }
 
 bool ADamager::IsOnCooldown() const
 {
-	return timeCurrent < Cooldown;
+	return timeFromLastDamage < Cooldown;
 }
 
 void ADamager::ResetTimer()
 {
-	timeCurrent = 0.0f;
+	timeFromLastDamage = 0.0f;
 }
