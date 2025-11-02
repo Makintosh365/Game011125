@@ -19,5 +19,5 @@ class ICanDealDamage
 	GENERATED_BODY()
 
 public:
-	virtual void DealDamage(TSharedPtr<UGameObject> damagedObject);
+	virtual bool DealDamage(TSharedPtr<UGameObject> damagedObject);
 };
