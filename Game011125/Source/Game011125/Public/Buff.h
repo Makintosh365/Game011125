@@ -26,7 +26,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Buff")
 	float hpBonus;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = -"Buff")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Buff")
 	float speedBonus;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Buff")
