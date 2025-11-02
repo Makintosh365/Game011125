@@ -16,5 +16,5 @@ class ICanUseBuffs
 	GENERATED_BODY()
 
 public:
-	virtual void UseBuff();
+	virtual bool UseBuff();
 };

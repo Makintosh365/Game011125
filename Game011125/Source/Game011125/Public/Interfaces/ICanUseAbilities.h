@@ -16,5 +16,5 @@ class ICanUseAbilities
 	GENERATED_BODY()
 
 public:
-	virtual void UseCurrentAbility();
+	virtual bool UseCurrentAbility();
 };
