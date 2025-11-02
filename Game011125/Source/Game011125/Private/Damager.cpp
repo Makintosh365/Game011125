@@ -28,12 +28,6 @@ void ADamager::Tick(float DeltaSeconds)
 	if (!bDamageStarted)
 		return;
 	
-	if (LifetimeExpired())
-	{
-		Destroy();
-		return;
-	}
-
 	if (!PeriodicDamage)
 	{
 		for (AGameObject* target : damagedObjects)
@@ -43,6 +37,12 @@ void ADamager::Tick(float DeltaSeconds)
 	}
 	else
 	{
+		if (LifetimeExpired())
+		{
+			Destroy();
+			return;
+		}
+
 		if (!IsOnCooldown())
 		{
 			for (AGameObject* target : damagedObjects)
