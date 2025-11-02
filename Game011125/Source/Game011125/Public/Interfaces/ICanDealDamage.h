@@ -2,10 +2,10 @@
 
 #pragma once
 
+#include "GameObject.h"
+#include "UObject/Interface.h"
 #include "CoreMinimal.h"
 #include "ICanDealDamage.generated.h"
-
-class UGameObject;
 
 
 UINTERFACE(MinimalAPI, Blueprintable)
@@ -14,10 +14,10 @@ class UCanDealDamage: public UInterface
 	GENERATED_BODY()
 };
 
-class ICanDealDamage
+class GAME011125_API ICanDealDamage
 {
 	GENERATED_BODY()
 
 public:
-	virtual void DealDamage(TSharedPtr<UGameObject> damagedObject);
+	virtual void DealDamage(AGameObject* target) { };
 };

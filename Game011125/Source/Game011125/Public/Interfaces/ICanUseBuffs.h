@@ -11,10 +11,10 @@ class UCanUseBuffs : public UInterface
 	GENERATED_BODY()
 };
 
-class ICanUseBuffs
+class GAME011125_API ICanUseBuffs
 {
 	GENERATED_BODY()
 
 public:
-	virtual void UseBuff();
+	virtual void UseBuff() { };
 };

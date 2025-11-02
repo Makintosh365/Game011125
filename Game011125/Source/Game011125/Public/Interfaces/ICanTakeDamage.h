@@ -11,10 +11,10 @@ class UCanTakeDamage : public UInterface
 	GENERATED_BODY()
 };
 
-class ICanTakeDamage
+class GAME011125_API ICanTakeDamage
 {
 	GENERATED_BODY()
 
 public:
-	virtual void TakeDamage(float damage);
+	virtual void TakeDamage(float damage) { };
 };
