@@ -2,6 +2,8 @@
 
 
 #include "Enemy.h"
+#include "Hero.h"  
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -15,7 +17,19 @@ AEnemy::AEnemy()
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	if (HeroTarget == nullptr)
+	{
+		APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+		if (PlayerPawn)
+		{
+			AHero* FoundHero = Cast<AHero>(PlayerPawn);
+			if (FoundHero)
+			{
+				HeroTarget = FoundHero;
+			}
+		}
+	}
 }
 
 // Called every frame
@@ -28,5 +42,9 @@ void AEnemy::Tick(float DeltaTime)
 void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+void AEnemy::SetHeroTarget(AHero* NewHero)
+{
+	HeroTarget = NewHero;
 }
 
