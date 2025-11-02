@@ -4,17 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "Entity.h"
-#include "Enemy.generated.h"
-class AHero;
+#include "Hero.generated.h"
 
-UCLASS(Abstract, Blueprintable)
-class GAME011125_API AEnemy : public AEntity
+UCLASS()
+class GAME011125_API AHero : public AEntity
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	AEnemy();
+	AHero();
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,11 +25,4 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	// Hero pointer
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "References")
-	AHero* HeroTarget;
-
-	UFUNCTION(BlueprintCallable, Category = "References")
-	void SetHeroTarget(AHero* NewHero);
 };
