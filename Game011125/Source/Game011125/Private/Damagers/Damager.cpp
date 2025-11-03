@@ -5,7 +5,6 @@
 #include "GameObject.h"
 #include "Components/SphereComponent.h"
 #include "Interfaces/ICanTakeDamage.h"
-#include "UObject/GarbageCollectionSchema.h"
 
 
 ADamager::ADamager()
@@ -37,6 +36,24 @@ void ADamager::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
+	if (IsMelee)
+	{
+		TArray<AActor*> OverlappingActors;
+		CollisionComponent->GetOverlappingActors(OverlappingActors);
+		for (auto overlappingActor : OverlappingActors)
+		{
+			if (auto target = Cast<AGameObject>(overlappingActor))
+			{
+				for (TSubclassOf<AGameObject> damageableClass : damagedClasses)
+				{
+					if (target->GetClass()->IsChildOf(damageableClass))
+						DealDamage(target);
+				}
+			}
+		}
+		Destroy();
+	}
+	
 	if (!bDamageStarted)
 		return;
 	

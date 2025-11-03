@@ -41,6 +41,9 @@ public:
 
 	void SetDamagedClasses(const TSet<TSubclassOf<AGameObject>>& DamagedClasses);
 
+	UPROPERTY(EditAnywhere, Category = "Default Values")
+	bool IsMelee = false;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default Values")
 	TObjectPtr<USphereComponent> CollisionComponent;
 

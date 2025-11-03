@@ -32,6 +32,7 @@ void UAbility::Tick(float DeltaTime)
 		if (CooldownTimer <= 0.0f)
 		{
 			bIsReady = true;
+			CooldownTimer = 0.0f;
 		}
 	}
 }

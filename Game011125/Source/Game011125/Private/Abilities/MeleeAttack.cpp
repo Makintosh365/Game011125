@@ -1,28 +1,18 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Abilities/ThrowProjectileAbility.h"
-#include "Entities/Entity.h"
-#include "Entities/Hero.h"
+
+#include "Abilities/MeleeAttack.h"
+
 #include "Kismet/GameplayStatics.h"
 
-UThrowProjectileAbility::UThrowProjectileAbility()
-{
-	Name = TEXT("Fireball");
-}
-
-bool UThrowProjectileAbility::IsReady()
-{
-	return bIsReady && ownerEntity != nullptr;     
-}
-
-void UThrowProjectileAbility::Use()
+void UMeleeAttack::Use()
 {
 	if (!IsReady())
 	{
 		return;
 	}
 
-	if (!ProjectileClass)
+	if (!DamagerClass)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("UFireballAbility::Use - no Projectile"));
 		return;
@@ -51,11 +41,23 @@ void UThrowProjectileAbility::Use()
 	float OutImpactDmg = DamageMultiplier * OwnerActor->Stats.CurrentDamage;
 	// float OutAoeDmg    = 1.5f * OwnerActor->Stats.CurrentDamage;
 
-	const FVector Dir = OwnerActor->GetActorForwardVector();
+	AGameObject* targetObject = nullptr;
+	if (AActor* Found = UGameplayStatics::GetActorOfClass(GetWorld(), targetClass))
+		targetObject = Cast<AGameObject>(Found);
 
-	// spawn position + Z delta
-	FVector SpawnLocation = OwnerActor->GetTransform().GetLocation() + FVector(0,0,50.f);
-	FRotator SpawnRotation = Dir.Rotation();
+	if (!targetObject)
+		return;
+	
+	const FVector MyLocation = OwnerActor->GetActorLocation();
+	const FVector TargetLocation = targetObject->GetActorLocation();
+
+	FVector ToTarget = TargetLocation - MyLocation;
+	const float DistanceToHero = ToTarget.Size();
+	ToTarget.Normalize();
+
+	const FVector SpawnLocation = MyLocation + ToTarget * SpawnDistance;
+
+	FRotator SpawnRotation = ToTarget.Rotation();
 	FVector SpawnScale = FVector(1, 1, 1);
 	FTransform SpawnTransform = FTransform(SpawnRotation, SpawnLocation, SpawnScale);
 
@@ -64,22 +66,25 @@ void UThrowProjectileAbility::Use()
 	// SpawnParams.Instigator = OwnerActor ? OwnerActor->GetInstigator() : nullptr;
 	if (AActor* Found = UGameplayStatics::GetActorOfClass(GetWorld(), targetClass))
 	{
-		auto projectile = World->SpawnActor<AProjectile>(ProjectileClass, SpawnTransform, SpawnParams);
-		projectile->Initialize(
+		auto damager = World->SpawnActor<ADamager>(DamagerClass, SpawnTransform, SpawnParams);
+		damager->Initialize(
 			damagedClasses,
 			OutImpactDmg,
 			Splash,
 			PeriodicDamage,
 			DamagerDuration,
-			DamagerCooldown,
-			targetClass,
-			ProjectileSpeed);
+			DamagerCooldown);
 	}
 
 	Super::Use();
 }
 
-void UThrowProjectileAbility::Tick(float DeltaTime)
+bool UMeleeAttack::IsReady()
+{
+	return Super::IsReady();
+}
+
+void UMeleeAttack::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
