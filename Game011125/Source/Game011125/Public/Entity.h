@@ -33,6 +33,8 @@ public:
 
 	// ICanUseBuffs
 	bool UseBuff() override;
+	
+	virtual void Tick(float DeltaTime) override;
 
 protected:
 	//--------------------------------------------------------------------------
