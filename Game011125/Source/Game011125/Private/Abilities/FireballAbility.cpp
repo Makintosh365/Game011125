@@ -15,26 +15,38 @@ bool UFireballAbility::IsReady()
 
 void UFireballAbility::Use()
 {
-	Super::Use();
-	
 	if (!IsReady())
 	{
 		return;
 	}
-	
-	UWorld* World = nullptr;
+
+	if (!ProjectileClass)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UFireballAbility::Use - no Projectile"));
+		return;
+	}
+
+	AActor* OwnerActor = nullptr;
 	if (ownerEntity)
 	{
-		AActor* OwnerActor = Cast<AActor>(ownerEntity);
-		if (OwnerActor)
-		{
-			World = OwnerActor->GetWorld();
-		}
+		OwnerActor = Cast<AActor>(ownerEntity);
+	}
+
+	if (!OwnerActor)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UFireballAbility::Use - no Owner"));
+		return;
+	}
+
+	UWorld* World = nullptr;
+	if (OwnerActor)
+	{
+		World = OwnerActor->GetWorld();
 	}
 
 	if (!World)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UFireballAbility::Use - no World/Owner"));
+		UE_LOG(LogTemp, Warning, TEXT("UFireballAbility::Use - no World"));
 		return;
 	}
 
@@ -47,17 +59,17 @@ void UFireballAbility::Use()
 	const FVector Dir = FRotationMatrix(FRotator(0.0f, RandomYaw, 0.0f)).GetUnitAxis(EAxis::X);
 
 	// spawn position + Z delta
-	FVector SpawnLocation = FVector::ZeroVector;
+	FVector SpawnLocation = OwnerActor->GetTransform().GetLocation() + FVector(0,0,50.f);
 	FRotator SpawnRotation = Dir.Rotation();
-	AActor* OwnerActor = Cast<AActor>(ownerEntity);
-	if (OwnerActor)
-	{
-		SpawnLocation = OwnerActor->GetActorLocation() + FVector(0,0,50.f); 
-	}
+	FVector SpawnScale = FVector(1, 1, 1);
+	FTransform SpawnTransform = FTransform(SpawnRotation, SpawnLocation, SpawnScale);
 
 	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = OwnerActor;
-	SpawnParams.Instigator = OwnerActor ? OwnerActor->GetInstigator() : nullptr;
+	// SpawnParams.Owner = OwnerActor;
+	// SpawnParams.Instigator = OwnerActor ? OwnerActor->GetInstigator() : nullptr;
+	World->SpawnActor<ADamager>(ProjectileClass, SpawnTransform, SpawnParams);
+	
+	Super::Use();
 }
 
 void UFireballAbility::Tick(float DeltaTime)

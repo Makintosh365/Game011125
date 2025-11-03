@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/Ability.h"
+#include "Damagers/Projectile.h"
 #include "FireballAbility.generated.h"
 
 /**
@@ -16,6 +17,9 @@ class GAME011125_API UFireballAbility : public UAbility
 
 public:
 	UFireballAbility();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Fireball")
+	TSubclassOf<AProjectile> ProjectileClass;
 
 	//BaseDamage
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Fireball", meta = (ClampMin = 0.0f))

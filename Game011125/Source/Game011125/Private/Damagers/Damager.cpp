@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Damager.h"
+#include "Damagers/Damager.h"
 
 #include "GameObject.h"
 #include "Components/SphereComponent.h"
@@ -74,7 +74,7 @@ void ADamager::OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AAc
 									  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
 									  bool bFromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, "Damager collision start");
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "Damager collision start");
 	if (AGameObject* target = Cast<AGameObject>(OtherActor))
 	{
 		if (!Splash)
@@ -93,7 +93,7 @@ void ADamager::OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AAc
 void ADamager::OnCollisionEndCallback(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
 									UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, "Damager collision end");
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "Damager collision end");
 	damagedObjects.Remove(Cast<AGameObject>(OtherActor));
 }
 
