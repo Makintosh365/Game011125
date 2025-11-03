@@ -41,7 +41,6 @@ void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	// ���� ���� ��� ��� ��� ��� ���������� � ������ �� ������
 	if (!HeroTarget || !IsValid(HeroTarget))
 	{
 		return;
