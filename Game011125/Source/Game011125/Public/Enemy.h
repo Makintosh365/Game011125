@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 #include "Entity.h"
 #include "Enemy.generated.h"
+
 class AHero;
+
 
 UCLASS(Abstract, Blueprintable)
 class GAME011125_API AEnemy : public AEntity
@@ -23,10 +25,7 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	
 	// Hero pointer
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "References")
 	AHero* HeroTarget;

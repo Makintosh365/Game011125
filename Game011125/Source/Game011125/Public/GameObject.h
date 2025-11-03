@@ -8,8 +8,7 @@
 #include "GameObject.generated.h"
 
 
-
-UCLASS(Abstract)
+UCLASS(Abstract, Blueprintable)
 class GAME011125_API AGameObject : public AActor
 {
 	GENERATED_BODY()
@@ -30,8 +29,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 	bool IsAlive() const { return Stats.CurrentHP > 0; }
 
-
 	~AGameObject();
+	
 protected:
 	//--------------------------------------------------------------------------
 	// --- Called when the actor is spawned or the game starts

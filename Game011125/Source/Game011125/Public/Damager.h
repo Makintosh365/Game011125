@@ -13,7 +13,7 @@ class AGameObject;
 /**
  * 
  */
-UCLASS(Abstract)
+UCLASS(Abstract, Blueprintable)
 class GAME011125_API ADamager :
 	public AActor,
 	public ICanDealDamage

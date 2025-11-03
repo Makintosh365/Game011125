@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "GameObject.h"
 #include "Entity.generated.h"
 
 UCLASS(Abstract, Blueprintable)
-class GAME011125_API AEntity : public ACharacter
+class GAME011125_API AEntity : public AGameObject
 {
 	GENERATED_BODY()
 
