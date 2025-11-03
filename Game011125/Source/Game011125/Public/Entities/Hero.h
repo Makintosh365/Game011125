@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "Entity.h"
+#include "Components/WidgetComponent.h"
+#include "HealthBarWidget.h"
 #include "Hero.generated.h"
 
 class ATargetPoint;
@@ -19,6 +21,14 @@ class GAME011125_API AHero : public AEntity
 
 public:
     AHero();
+
+    UPROPERTY(EditDefaultsOnly, Category = "UI")
+    TSubclassOf<UHealthBarWidget> ScreenHealthBarClass;
+
+    UPROPERTY(BlueprintReadOnly, Category = "UI")
+    TObjectPtr<UHealthBarWidget> ScreenHealthBarWidget;
+
+    void UpdateHealthBar();
 
     UFUNCTION(BlueprintCallable, Category = "Hero")
     static AHero* GetCurrentHero() { return CurrentHero; }
