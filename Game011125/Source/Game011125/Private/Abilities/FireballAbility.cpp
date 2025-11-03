@@ -67,7 +67,8 @@ void UFireballAbility::Use()
 	FActorSpawnParameters SpawnParams;
 	// SpawnParams.Owner = OwnerActor;
 	// SpawnParams.Instigator = OwnerActor ? OwnerActor->GetInstigator() : nullptr;
-	World->SpawnActor<ADamager>(ProjectileClass, SpawnTransform, SpawnParams);
+	auto damager = World->SpawnActor<ADamager>(ProjectileClass, SpawnTransform, SpawnParams);
+	damager->Initialize(DamagedClasses);
 	
 	Super::Use();
 }

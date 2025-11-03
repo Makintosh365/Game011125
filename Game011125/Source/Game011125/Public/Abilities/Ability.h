@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameObject.h"
 #include "Interfaces/ICanUseAbilities.h"
 #include "Ability.generated.h"
 
@@ -32,6 +33,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability")
 	float DamageMultiplier = 1.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ability")
+	TSet<TSubclassOf<AGameObject>> DamagedClasses;
 
 	//State
 

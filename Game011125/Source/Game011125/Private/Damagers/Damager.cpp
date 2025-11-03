@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Components/SphereComponent.h"
 #include "Interfaces/ICanTakeDamage.h"
+#include "UObject/GarbageCollectionSchema.h"
 
 
 ADamager::ADamager()
@@ -19,6 +20,11 @@ void ADamager::BeginPlay()
 	Super::BeginPlay();
 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ADamager::OnCollisionStartCallback);
 	CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ADamager::OnCollisionEndCallback);
+}
+
+void ADamager::Initialize(const TSet<TSubclassOf<AGameObject>>& DamagedClasses)
+{
+	SetDamagedClasses(DamagedClasses);
 }
 
 void ADamager::Tick(float DeltaSeconds)
@@ -70,13 +76,29 @@ bool ADamager::DealDamage(AGameObject* Target)
 	return false;
 }
 
-void ADamager::OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
-									  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
-									  bool bFromSweep, const FHitResult& SweepResult)
+void ADamager::SetDamagedClasses(const TSet<TSubclassOf<AGameObject>>& DamagedClasses)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "Damager collision start");
+	damagedClasses = DamagedClasses;
+}
+
+void ADamager::OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
+                                        UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
+                                        bool bFromSweep, const FHitResult& SweepResult)
+{
 	if (AGameObject* target = Cast<AGameObject>(OtherActor))
 	{
+		bool damageAllowed = false;
+		for (TSubclassOf<AGameObject> damageableClass : damagedClasses)
+		{
+			if (target->GetClass()->IsChildOf(damageableClass))
+			{
+				damageAllowed = true;
+			}
+		}
+		if (!damageAllowed)
+			return;
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "Damager collision start");
 		if (!Splash)
 		{
 			DealDamage(target);
@@ -93,8 +115,8 @@ void ADamager::OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AAc
 void ADamager::OnCollisionEndCallback(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
 									UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "Damager collision end");
-	damagedObjects.Remove(Cast<AGameObject>(OtherActor));
+	if (damagedObjects.Remove(Cast<AGameObject>(OtherActor)))
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "Damager collision end");
 }
 
 bool ADamager::LifetimeExpired() const

@@ -27,9 +27,14 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	virtual void Initialize(const TSet<TSubclassOf<AGameObject>>& DamagedClasses);
+	
 	virtual void Tick(float DeltaSeconds) override;
 
 	bool DealDamage(AGameObject* Target) override;
+
+	void SetDamagedClasses(const TSet<TSubclassOf<AGameObject>>& DamagedClasses);
+
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default Values")
 	TObjectPtr<USphereComponent> CollisionComponent;
@@ -56,6 +61,8 @@ private:
 	
 	TSet<AGameObject*> damagedObjects;
 
+	TSet<TSubclassOf<AGameObject>> damagedClasses;
+private:
 	UFUNCTION()
 	void OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
 								  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
