@@ -4,7 +4,7 @@
 // Hero.cpp
 // -----------------------------------------------------------------------------
 
-#include "Hero.h"
+#include "Entities/Hero.h"
 
 AHero* AHero::CurrentHero = nullptr;
 

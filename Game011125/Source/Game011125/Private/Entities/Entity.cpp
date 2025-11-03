@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Entity.h"
+#include "Entities/Entity.h"
 
-#include "Ability.h"
-#include "Buff.h"
+#include "Abilities/Ability.h"
+#include "Buffs/Buff.h"
 // Sets default values
 AEntity::AEntity()
 {
@@ -12,12 +12,11 @@ AEntity::AEntity()
 
 bool AEntity::UseCurrentAbility()
 {
-
-    for (UAbility* Ability : Abilities)
+    for (UAbility* ability : abilities)
     {
-        if (Ability && Ability->IsReady())
+        if (ability && ability->IsReady())
         {
-            Ability->Use();
+            ability->Use();
             return true;
         }
     }
@@ -38,7 +37,6 @@ bool AEntity::TakeDamage(float damage)
     {
         OnDeath();
     }
-
 
     return true;
 }
@@ -72,6 +70,17 @@ void AEntity::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    for (TObjectPtr<UAbility> ability : Abilities)
-        ability->Tick(DeltaTime);
+    for (TObjectPtr<UAbility> ability : abilities)
+    {
+        if (ability)
+            ability->Tick(DeltaTime);
+    }
+}
+
+void AEntity::BeginPlay()
+{
+    Super::BeginPlay();
+    
+    for (TSubclassOf<UAbility> abilityClass : DefaultAbilities)
+        abilities.Add(NewObject<UAbility>(this, abilityClass));
 }

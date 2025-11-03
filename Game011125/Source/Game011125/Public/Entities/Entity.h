@@ -5,7 +5,6 @@
 
 #include "Interfaces/ICanUseAbilities.h"
 #include "Interfaces/ICanTakeDamage.h"
-#include "Interfaces/ICanUseAbilities.h"
 #include "Interfaces/ICanUseBuffs.h"
 
 #include "Entity.generated.h"
@@ -25,6 +24,8 @@ class GAME011125_API AEntity
 
 public:
 	AEntity();
+
+public:
 	// ICanUseAbilities
 	bool UseCurrentAbility() override;
 
@@ -35,12 +36,17 @@ public:
 	bool UseBuff() override;
 	
 	virtual void Tick(float DeltaTime) override;
-
-protected:
+	
 	//--------------------------------------------------------------------------
 	// --- Abilities
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Entity|Abilities")
-	TArray<TObjectPtr<UAbility>> Abilities;
+	TArray<TSubclassOf<UAbility>> DefaultAbilities;
+
+protected:
+	virtual void BeginPlay() override;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Entity|Abilities")
+	TArray<TObjectPtr<UAbility>> abilities;
 
 	//--------------------------------------------------------------------------
 	// --- Buffs

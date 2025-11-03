@@ -1,8 +1,8 @@
 // Enemy.cpp
 // -----------------------------------------------------------------------------
 
-#include "Enemy.h"
-#include "Hero.h"
+#include "Entities/Enemy.h"
+#include "Entities/Hero.h"
 #include "Kismet/GameplayStatics.h"
 
 AEnemy::AEnemy()
@@ -41,7 +41,6 @@ void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	// Если цели нет или она уже уничтожена — ничего не делаем
 	if (!HeroTarget || !IsValid(HeroTarget))
 	{
 		return;
@@ -62,8 +61,11 @@ void AEnemy::Tick(float DeltaTime)
 	ToHero.Normalize();
 	const FVector DeltaMove = ToHero * Stats.CurrentSpeed * DeltaTime;
 
-	// AddActorWorldOffset with sweep = true so we don't walk through walls
-	AddActorWorldOffset(DeltaMove, true);
+	if (FollowHero)
+	{
+		// AddActorWorldOffset with sweep = true so we don't walk through walls
+		AddActorWorldOffset(DeltaMove, true);
+	}
 }
 
 void AEnemy::SetHeroTarget(AHero* NewHero)

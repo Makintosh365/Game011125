@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Entity.h"
+#include "Entities/Entity.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS(Abstract, Blueprintable)

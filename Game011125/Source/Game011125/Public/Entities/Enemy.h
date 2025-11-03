@@ -28,7 +28,10 @@ public:
 	void SetHeroTarget(AHero* NewHero);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
-	float FollowDistance = 150.0f;   
+	float FollowDistance = 150.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement|Debug")
+	bool FollowHero = true;
 
 protected:
 	virtual void BeginPlay() override;
