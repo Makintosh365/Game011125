@@ -59,12 +59,6 @@ void AProjectile::Tick(float DeltaTime)
 		}
 	}
 
-	// if (!targetObject || !IsValid(targetObject))
-	// {
-	// 	Destroy();
-	// 	return;
-	// }
-
 	const FVector MyLocation = GetActorLocation();
 	const FVector TargetLocation = targetObject->GetActorLocation();
 
@@ -76,6 +70,9 @@ void AProjectile::Tick(float DeltaTime)
 
 	// AddActorWorldOffset with sweep = true so we don't walk through walls
 	AddActorWorldOffset(DeltaMove, true);
+	
+	FRotator FacingRotator = ToTarget.Rotation();
+	SetActorRotation(FacingRotator, ETeleportType::None);
 	
 	Super::Tick(DeltaTime);
 }

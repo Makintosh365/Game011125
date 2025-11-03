@@ -56,9 +56,7 @@ void UThrowProjectileAbility::Use()
 	float OutImpactDmg = 3.0f * BaseDamage;
 	float OutAoeDmg    = 1.5f * BaseDamage;
 
-	// Random direction (Z = 0)
-	const float RandomYaw = FMath::FRandRange(0.0f, 360.0f);
-	const FVector Dir = FRotationMatrix(FRotator(0.0f, RandomYaw, 0.0f)).GetUnitAxis(EAxis::X);
+	const FVector Dir = OwnerActor->GetActorForwardVector();
 
 	// spawn position + Z delta
 	FVector SpawnLocation = OwnerActor->GetTransform().GetLocation() + FVector(0,0,50.f);
