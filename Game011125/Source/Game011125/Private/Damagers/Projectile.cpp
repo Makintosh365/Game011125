@@ -44,7 +44,7 @@ void AProjectile::BeginPlay()
 // Called every frame
 void AProjectile::Tick(float DeltaTime)
 {
-	if (bIsFollowing && !targetObject)
+	if (targetObject && !targetObject->IsAlive())
 	{
 		Destroy();
 		return;
@@ -59,10 +59,11 @@ void AProjectile::Tick(float DeltaTime)
 		}
 	}
 
-	if (!targetObject || !IsValid(targetObject))
-	{
-		return;
-	}
+	// if (!targetObject || !IsValid(targetObject))
+	// {
+	// 	Destroy();
+	// 	return;
+	// }
 
 	const FVector MyLocation = GetActorLocation();
 	const FVector TargetLocation = targetObject->GetActorLocation();
