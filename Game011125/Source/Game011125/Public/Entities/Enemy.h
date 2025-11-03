@@ -19,10 +19,6 @@ public:
 	AEnemy();
 
 	virtual void Tick(float DeltaTime) override;
-	
-	// Hero pointer
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "References")
-	AHero* HeroTarget = nullptr;
 
 	UFUNCTION(BlueprintCallable, Category = "References")
 	void SetHeroTarget(AHero* NewHero);
@@ -35,4 +31,8 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	
+	// Hero pointer
+	UPROPERTY()
+	AHero* HeroTarget = nullptr;
 };

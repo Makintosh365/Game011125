@@ -27,35 +27,49 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	virtual void Initialize(
+		const TSet<TSubclassOf<AGameObject>>& DamagedClasses,
+		float Damage,
+		bool Splash,
+		bool PeriodicDamage,
+		float Duration,
+		float Cooldown);
+	
 	virtual void Tick(float DeltaSeconds) override;
 
 	bool DealDamage(AGameObject* Target) override;
 
+	void SetDamagedClasses(const TSet<TSubclassOf<AGameObject>>& DamagedClasses);
+
+	UPROPERTY(EditAnywhere, Category = "Default Values")
+	bool IsMelee = false;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default Values")
 	TObjectPtr<USphereComponent> CollisionComponent;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Default Values", meta = (ClampMin = 0.0f))
-	float Damage = 0.0f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Default Values")
-	bool Splash = false;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Default Values")
-	bool PeriodicDamage = false;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Default Values", meta = (ClampMin = 0.01f))
-	float Cooldown = 1.0f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Default Values", meta = (ClampMin = 0.01f))
-	float Duration = 5.0f;
-
-private:
+protected:
+	float damage = 0.0f;
+	bool splash = false;
+	bool periodicDamage = false;
+	float duration = 5.0f;
+	float cooldown = 1.0f;
+	
 	float timeFromLastDamage;
 	float timeFromStart;
 	bool bDamageStarted = false;
-	
-	TSet<AGameObject*> damagedObjects;
 
+	// Target (followed)
+	TSubclassOf<AGameObject> targetClass;
+
+	UPROPERTY()
+	AGameObject* targetObject;
+	
+	// Damaged
+	TSet<TSubclassOf<AGameObject>> damagedClasses;
+	
+	UPROPERTY()
+	TSet<AGameObject*> damagedObjects;
+	
 	UFUNCTION()
 	void OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
 								  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
