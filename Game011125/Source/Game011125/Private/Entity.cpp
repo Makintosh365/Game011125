@@ -67,3 +67,11 @@ bool AEntity::UseBuff()
 
     return ActiveBuffs.Num() > 0;
 }
+
+void AEntity::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
+
+    for (TObjectPtr<UAbility> ability : Abilities)
+        ability->Tick(DeltaTime);
+}
