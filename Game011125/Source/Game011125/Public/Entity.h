@@ -25,9 +25,6 @@ class GAME011125_API AEntity
 
 public:
 	AEntity();
-
-	void Tick(float DeltaTime) override;
-
 	// ICanUseAbilities
 	bool UseCurrentAbility() override;
 
