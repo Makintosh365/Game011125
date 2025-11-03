@@ -1,19 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Abilities/FireballAbility.h"
+#include "Abilities/ThrowProjectileAbility.h"
 #include "Entities/Entity.h"
+#include "Entities/Hero.h"
+#include "Kismet/GameplayStatics.h"
 
-UFireballAbility::UFireballAbility()
+UThrowProjectileAbility::UThrowProjectileAbility()
 {
 	Name = TEXT("Fireball");
 }
 
-bool UFireballAbility::IsReady()
+bool UThrowProjectileAbility::IsReady()
 {
 	return bIsReady && ownerEntity != nullptr;     
 }
 
-void UFireballAbility::Use()
+void UThrowProjectileAbility::Use()
 {
 	if (!IsReady())
 	{
@@ -67,13 +69,24 @@ void UFireballAbility::Use()
 	FActorSpawnParameters SpawnParams;
 	// SpawnParams.Owner = OwnerActor;
 	// SpawnParams.Instigator = OwnerActor ? OwnerActor->GetInstigator() : nullptr;
-	auto damager = World->SpawnActor<ADamager>(ProjectileClass, SpawnTransform, SpawnParams);
-	damager->Initialize(DamagedClasses);
-	
+	if (AActor* Found = UGameplayStatics::GetActorOfClass(GetWorld(), targetClass))
+	{
+		auto projectile = World->SpawnActor<AProjectile>(ProjectileClass, SpawnTransform, SpawnParams);
+		projectile->Initialize(
+			damagedClasses,
+			BaseDamage,
+			Splash,
+			PeriodicDamage,
+			DamagerDuration,
+			DamagerCooldown,
+			targetClass,
+			ProjectileSpeed);
+	}
+
 	Super::Use();
 }
 
-void UFireballAbility::Tick(float DeltaTime)
+void UThrowProjectileAbility::Tick(float DeltaTime)
 {
 	if (!bIsReady)
 	{

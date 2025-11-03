@@ -18,24 +18,36 @@ class GAME011125_API UAbility : public UObject
 public:
 	UAbility();
 
-	void Initialize(AEntity* owner);
+	virtual void Initialize(
+		AEntity* owner,
+		TSubclassOf<AGameObject> FollowedClass,
+		const TSet<TSubclassOf<AGameObject>>& DamagedClasses);
 
 	// features
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability")
 	FString Name;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability", meta = (ClampMin = 0.0f))
+	float BaseDamage = 0.0f;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability", meta = (ClampMin = 0.01f))
-	float Cooldown;
+	float AbilityCooldown;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability")
-	bool bIsSplashDamage = false;
+	UPROPERTY(EditDefaultsOnly, Category = "Ability|Damager")
+	bool Splash = false;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability")
+	UPROPERTY(EditDefaultsOnly, Category = "Ability|Damager")
+	bool PeriodicDamage = false;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ability|Damager", meta = (ClampMin = 0.01f))
+	float DamagerDuration = 5.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ability|Damager", meta = (ClampMin = 0.01f))
+	float DamagerCooldown = 5.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability|Damager")
 	float DamageMultiplier = 1.0f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Ability")
-	TSet<TSubclassOf<AGameObject>> DamagedClasses;
 
 	//State
 
@@ -61,4 +73,8 @@ public:
 protected:
 	//Ability you need to know who is using it (to spawn a fireball on his behalf)
 	ICanUseAbilities* ownerEntity;
+
+	TSet<TSubclassOf<AGameObject>> damagedClasses;
+	
+	TSubclassOf<AGameObject> targetClass;
 };

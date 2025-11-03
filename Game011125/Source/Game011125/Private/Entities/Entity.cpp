@@ -84,8 +84,11 @@ void AEntity::BeginPlay()
     
     for (TSubclassOf<UAbility> abilityClass : DefaultAbilities)
     {
-        auto ability = NewObject<UAbility>(this, abilityClass);
-        ability->Initialize(this);
-        abilities.Add(ability);
+        if (abilityClass)
+        {
+            auto ability = NewObject<UAbility>(this, abilityClass);
+            ability->Initialize(this, TargetClass, DamagedClasses);
+            abilities.Add(ability);
+        }
     }
 }

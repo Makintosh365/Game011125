@@ -22,9 +22,15 @@ void ADamager::BeginPlay()
 	CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ADamager::OnCollisionEndCallback);
 }
 
-void ADamager::Initialize(const TSet<TSubclassOf<AGameObject>>& DamagedClasses)
+void ADamager::Initialize(const TSet<TSubclassOf<AGameObject>>& DamagedClasses, float Damage, bool Splash,
+	bool PeriodicDamage, float Duration, float Cooldown)
 {
 	SetDamagedClasses(DamagedClasses);
+	damage = Damage;
+	splash = Splash;
+	periodicDamage = PeriodicDamage;
+	duration = Duration;
+	cooldown = Cooldown;
 }
 
 void ADamager::Tick(float DeltaSeconds)
@@ -34,7 +40,7 @@ void ADamager::Tick(float DeltaSeconds)
 	if (!bDamageStarted)
 		return;
 	
-	if (!PeriodicDamage)
+	if (!periodicDamage)
 	{
 		for (AGameObject* target : damagedObjects)
 			DealDamage(target);
@@ -70,7 +76,7 @@ bool ADamager::DealDamage(AGameObject* Target)
 	
 	if (ICanTakeDamage* damageable = Cast<ICanTakeDamage>(Target))
 	{
-		damageable->TakeDamage(Damage);
+		damageable->TakeDamage(damage);
 		return true;
 	}
 	return false;
@@ -99,7 +105,7 @@ void ADamager::OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AAc
 			return;
 
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "Damager collision start");
-		if (!Splash)
+		if (!splash)
 		{
 			DealDamage(target);
 			Destroy();
@@ -121,12 +127,12 @@ void ADamager::OnCollisionEndCallback(UPrimitiveComponent* OverlappedComp, AActo
 
 bool ADamager::LifetimeExpired() const
 {
-	return timeFromStart >= Duration;
+	return timeFromStart >= duration;
 }
 
 bool ADamager::IsOnCooldown() const
 {
-	return timeFromLastDamage < Cooldown;
+	return timeFromLastDamage < cooldown;
 }
 
 void ADamager::ResetTimer()

@@ -7,17 +7,20 @@ UAbility::UAbility()
 {
 	// default value
 	Name = "Default Ability";
-	Cooldown = 1.0f;
-	bIsSplashDamage = false;
-	DamageMultiplier = 1.0f;
 
 	bIsReady = true;
 	CooldownTimer = 0.0f;
 }
 
-void UAbility::Initialize(AEntity* owner)
+void UAbility::Initialize(AEntity* owner, TSubclassOf<AGameObject> FollowedClass,
+                          const TSet<TSubclassOf<AGameObject>>& DamagedClasses)
 {
 	SetOwner(owner);
+	targetClass = FollowedClass;
+	damagedClasses = DamagedClasses;
+
+	CooldownTimer = AbilityCooldown;
+	bIsReady = false;
 }
 
 //This method will be called from the owner's Ticket (Entity)
@@ -39,7 +42,7 @@ void UAbility::Use()
 	if (IsReady())
 	{
 		bIsReady = false;
-		CooldownTimer = Cooldown;
+		CooldownTimer = AbilityCooldown;
 		UE_LOG(LogTemp, Warning, TEXT("Base Ability Used. This should be extended."));
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, "Use " + Name);
 	}

@@ -39,8 +39,14 @@ public:
 	
 	//--------------------------------------------------------------------------
 	// --- Abilities
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Entity|Abilities")
+	UPROPERTY(EditAnywhere, Category = "Entity|Abilities")
 	TArray<TSubclassOf<UAbility>> DefaultAbilities;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Entity|Abilities")
+	TSubclassOf<AGameObject> TargetClass;
+	
+	UPROPERTY(EditAnywhere, Category = "Entity|Abilities")
+	TSet<TSubclassOf<AGameObject>> DamagedClasses;
 
 protected:
 	virtual void BeginPlay() override;
