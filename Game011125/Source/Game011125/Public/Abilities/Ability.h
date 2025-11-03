@@ -17,6 +17,8 @@ class GAME011125_API UAbility : public UObject
 public:
 	UAbility();
 
+	void Initialize(AEntity* owner);
+
 	// features
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability")

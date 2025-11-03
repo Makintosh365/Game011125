@@ -75,6 +75,7 @@ void AEntity::Tick(float DeltaTime)
         if (ability)
             ability->Tick(DeltaTime);
     }
+    UseCurrentAbility();
 }
 
 void AEntity::BeginPlay()
@@ -82,5 +83,9 @@ void AEntity::BeginPlay()
     Super::BeginPlay();
     
     for (TSubclassOf<UAbility> abilityClass : DefaultAbilities)
-        abilities.Add(NewObject<UAbility>(this, abilityClass));
+    {
+        auto ability = NewObject<UAbility>(this, abilityClass);
+        ability->Initialize(this);
+        abilities.Add(ability);
+    }
 }

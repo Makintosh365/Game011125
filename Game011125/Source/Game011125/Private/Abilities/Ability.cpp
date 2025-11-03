@@ -15,6 +15,11 @@ UAbility::UAbility()
 	CooldownTimer = 0.0f;
 }
 
+void UAbility::Initialize(AEntity* owner)
+{
+	SetOwner(owner);
+}
+
 //This method will be called from the owner's Ticket (Entity)
 void UAbility::Tick(float DeltaTime)
 {
@@ -36,6 +41,7 @@ void UAbility::Use()
 		bIsReady = false;
 		CooldownTimer = Cooldown;
 		UE_LOG(LogTemp, Warning, TEXT("Base Ability Used. This should be extended."));
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, "Use " + Name);
 	}
 }
 

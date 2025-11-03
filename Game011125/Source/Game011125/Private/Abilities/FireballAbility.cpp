@@ -15,11 +15,13 @@ bool UFireballAbility::IsReady()
 
 void UFireballAbility::Use()
 {
+	Super::Use();
+	
 	if (!IsReady())
 	{
 		return;
 	}
-
+	
 	UWorld* World = nullptr;
 	if (ownerEntity)
 	{
@@ -56,10 +58,6 @@ void UFireballAbility::Use()
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = OwnerActor;
 	SpawnParams.Instigator = OwnerActor ? OwnerActor->GetInstigator() : nullptr;
-	
-	// cooldown
-	bIsReady = false;
-	CooldownTimer = Cooldown;
 }
 
 void UFireballAbility::Tick(float DeltaTime)
