@@ -10,21 +10,6 @@ AEntity::AEntity()
 
 }
 
-void AEntity::Tick(float DeltaTime)
-{
-    Super::Tick(DeltaTime);
-
-    for (UAbility* Ability : Abilities)
-    {
-        if (!Ability)
-        {
-            continue;
-        }
-        Ability->Tick(DeltaTime);
-    }
-
-}
-
 bool AEntity::UseCurrentAbility()
 {
 
