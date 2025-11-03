@@ -1,6 +1,5 @@
 // EnemySpawnManager.cpp
 
-// ===== ВАЖНО: флаг для опционального NavMesh =====
 #ifndef ENEMYMANAGER_USE_NAV
 #define ENEMYMANAGER_USE_NAV 0
 #endif
@@ -12,10 +11,8 @@
 #include "GameFramework/Pawn.h"
 #include "TimerManager.h"
 
-// Твой хедер героя (если есть)
 #include "Entities/Hero.h"
 
-// Подключаем NavigationSystem ТОЛЬКО если явно включили флаг
 #if ENEMYMANAGER_USE_NAV
 #include "NavigationSystem.h"
 #endif
@@ -36,7 +33,6 @@ AEnemySpawnManager::AEnemySpawnManager()
     PeriodicRules[0].StartDelaySeconds = 0.0f;
     PeriodicRules[0].bEnabled = false;
 
-    // По умолчанию не просим NavMesh (чтобы не менять Build.cs)
     bProjectOnNavMesh = false;
 }
 
@@ -129,7 +125,6 @@ int32 AEnemySpawnManager::SpawnEnemiesOfClass(TSubclassOf<AActor> EnemyClass, in
 
             if (bProjectOnNavMesh)
             {
-                // Даже если флаг включён в Details, без ENEMYMANAGER_USE_NAV это просто вернёт входную точку.
                 if (!ProjectToNavMeshIfNeeded(FinalPoint, FinalPoint))
                     continue;
             }
@@ -195,7 +190,6 @@ bool AEnemySpawnManager::ProjectToNavMeshIfNeeded(const FVector& InPoint, FVecto
     OutPoint = InPoint;
     return true;
 #else
-    // Навмэш выключен на уровне компиляции — просто вернуть точку как есть
     OutPoint = InPoint;
     return true;
 #endif
