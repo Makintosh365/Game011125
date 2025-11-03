@@ -4,7 +4,7 @@
 #include "Entity.h"
 #include "Hero.generated.h"
 
-UCLASS()
+UCLASS(Abstract, Blueprintable)
 class GAME011125_API AHero : public AEntity
 {
 	GENERATED_BODY()

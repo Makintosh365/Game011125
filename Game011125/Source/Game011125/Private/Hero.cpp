@@ -30,7 +30,3 @@ void AHero::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 	Super::EndPlay(EndPlayReason);
 }
-
-
-
-

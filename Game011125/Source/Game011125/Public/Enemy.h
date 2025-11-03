@@ -8,6 +8,7 @@
 
 class AHero;
 
+
 UCLASS(Abstract, Blueprintable)
 class GAME011125_API AEnemy : public AEntity
 {
@@ -18,7 +19,8 @@ public:
 	AEnemy();
 
 	virtual void Tick(float DeltaTime) override;
-
+	
+	// Hero pointer
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "References")
 	AHero* HeroTarget = nullptr;
 
@@ -30,6 +32,4 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-
-
 };

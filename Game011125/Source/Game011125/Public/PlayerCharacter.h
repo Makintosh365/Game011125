@@ -6,7 +6,7 @@
 #include "Entity.h"
 #include "PlayerCharacter.generated.h"
 
-UCLASS(Abstract)
+UCLASS(Abstract, Blueprintable)
 class GAME011125_API APlayerCharacter : public AEntity
 {
 	GENERATED_BODY()
@@ -22,6 +22,4 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-
 };
