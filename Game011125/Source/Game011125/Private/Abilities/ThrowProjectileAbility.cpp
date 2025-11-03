@@ -28,10 +28,10 @@ void UThrowProjectileAbility::Use()
 		return;
 	}
 
-	AActor* OwnerActor = nullptr;
+	AGameObject* OwnerActor = nullptr;
 	if (ownerEntity)
 	{
-		OwnerActor = Cast<AActor>(ownerEntity);
+		OwnerActor = Cast<AGameObject>(ownerEntity);
 	}
 
 	if (!OwnerActor)
@@ -40,12 +40,7 @@ void UThrowProjectileAbility::Use()
 		return;
 	}
 
-	UWorld* World = nullptr;
-	if (OwnerActor)
-	{
-		World = OwnerActor->GetWorld();
-	}
-
+	UWorld* World = OwnerActor->GetWorld();
 	if (!World)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("UFireballAbility::Use - no World"));
@@ -53,8 +48,8 @@ void UThrowProjectileAbility::Use()
 	}
 
 	// dmg calculation
-	float OutImpactDmg = 3.0f * BaseDamage;
-	float OutAoeDmg    = 1.5f * BaseDamage;
+	float OutImpactDmg = DamageMultiplier * OwnerActor->Stats.CurrentDamage;
+	// float OutAoeDmg    = 1.5f * OwnerActor->Stats.CurrentDamage;
 
 	const FVector Dir = OwnerActor->GetActorForwardVector();
 
@@ -72,7 +67,7 @@ void UThrowProjectileAbility::Use()
 		auto projectile = World->SpawnActor<AProjectile>(ProjectileClass, SpawnTransform, SpawnParams);
 		projectile->Initialize(
 			damagedClasses,
-			BaseDamage,
+			OutImpactDmg,
 			Splash,
 			PeriodicDamage,
 			DamagerDuration,

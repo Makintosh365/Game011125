@@ -28,11 +28,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability")
 	FString Name;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability", meta = (ClampMin = 0.0f))
-	float BaseDamage = 0.0f;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability", meta = (ClampMin = 0.01f))
 	float AbilityCooldown;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damager")
+	float DamageMultiplier = 1.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Ability|Damager")
 	bool Splash = false;
@@ -46,8 +46,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Ability|Damager", meta = (ClampMin = 0.01f))
 	float DamagerCooldown = 5.0f;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability|Damager")
-	float DamageMultiplier = 1.0f;
 
 	//State
 
