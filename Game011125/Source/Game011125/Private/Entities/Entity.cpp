@@ -4,10 +4,14 @@
 
 #include "Abilities/Ability.h"
 #include "Buffs/Buff.h"
+
 // Sets default values
 AEntity::AEntity()
 {
-
+	PrimaryActorTick.bCanEverTick = true;
+	CollisionComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleCollision"));
+    RootComponent = CollisionComponent;
+	CollisionComponent->SetGenerateOverlapEvents(true);
 }
 
 bool AEntity::UseCurrentAbility()

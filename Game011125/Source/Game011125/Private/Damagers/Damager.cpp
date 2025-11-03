@@ -17,6 +17,9 @@ ADamager::ADamager()
 void ADamager::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	CollisionComponent->SetGenerateOverlapEvents(true);
+	CollisionComponent->SetCollisionProfileName(TEXT("OverlapAll"));
 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ADamager::OnCollisionStartCallback);
 	CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ADamager::OnCollisionEndCallback);
 }
@@ -108,6 +111,7 @@ void ADamager::OnCollisionStartCallback(UPrimitiveComponent* OverlappedComp, AAc
                                         UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
                                         bool bFromSweep, const FHitResult& SweepResult)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, "Damager collision start");
 	if (AGameObject* target = Cast<AGameObject>(OtherActor))
 	{
 		bool damageAllowed = false;

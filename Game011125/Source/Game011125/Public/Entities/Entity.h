@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameObject.h"
+#include "Components/CapsuleComponent.h"
 
 #include "Interfaces/ICanUseAbilities.h"
 #include "Interfaces/ICanTakeDamage.h"
@@ -25,7 +26,6 @@ class GAME011125_API AEntity
 public:
 	AEntity();
 
-public:
 	// ICanUseAbilities
 	bool UseCurrentAbility() override;
 
@@ -36,16 +36,19 @@ public:
 	bool UseBuff() override;
 	
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default Values")
+	TObjectPtr<UCapsuleComponent> CollisionComponent;
 	
 	//--------------------------------------------------------------------------
 	// --- Abilities
 	UPROPERTY(EditAnywhere, Category = "Entity|Abilities")
 	TArray<TSubclassOf<UAbility>> DefaultAbilities;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Entity|Abilities")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, BlueprintReadWrite, Category = "Entity|Abilities")
 	TSubclassOf<AGameObject> TargetClass;
 	
-	UPROPERTY(EditAnywhere, Category = "Entity|Abilities")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Entity|Abilities")
 	TSet<TSubclassOf<AGameObject>> DamagedClasses;
 
 protected:
