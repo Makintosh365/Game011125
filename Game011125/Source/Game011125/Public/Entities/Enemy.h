@@ -9,7 +9,7 @@
 class AHero;
 
 
-UCLASS(Abstract, Blueprintable)
+UCLASS(Abstract, Blueprintable, BlueprintType)
 class GAME011125_API AEnemy : public AEntity
 {
 	GENERATED_BODY()

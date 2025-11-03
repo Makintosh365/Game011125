@@ -12,7 +12,7 @@ class ATargetPoint;
  * - Player never controls it.
  * - Super::Tick is NOT called to avoid external side-effects.
  */
-UCLASS(Blueprintable)
+UCLASS(Abstract, Blueprintable, BlueprintType)
 class GAME011125_API AHero : public AEntity
 {
     GENERATED_BODY()
