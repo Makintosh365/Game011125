@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Ability.h"
-#include "Entity.h" //OwnerEntity
+#include "Abilities/Ability.h"
+#include "Entities/Entity.h" //OwnerEntity
 
 UAbility::UAbility()
 {

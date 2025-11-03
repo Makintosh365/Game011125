@@ -5,7 +5,6 @@
 
 #include "Interfaces/ICanUseAbilities.h"
 #include "Interfaces/ICanTakeDamage.h"
-#include "Interfaces/ICanUseAbilities.h"
 #include "Interfaces/ICanUseBuffs.h"
 
 #include "Entity.generated.h"

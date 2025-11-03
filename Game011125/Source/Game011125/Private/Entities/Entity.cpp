@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Entity.h"
+#include "Entities/Entity.h"
 
-#include "Ability.h"
-#include "Buff.h"
+#include "Abilities/Ability.h"
+#include "Buffs/Buff.h"
 // Sets default values
 AEntity::AEntity()
 {

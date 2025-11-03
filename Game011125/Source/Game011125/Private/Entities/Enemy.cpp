@@ -1,8 +1,8 @@
 // Enemy.cpp
 // -----------------------------------------------------------------------------
 
-#include "Enemy.h"
-#include "Hero.h"
+#include "Entities/Enemy.h"
+#include "Entities/Hero.h"
 #include "Kismet/GameplayStatics.h"
 
 AEnemy::AEnemy()
@@ -41,7 +41,7 @@ void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	// Если цели нет или она уже уничтожена — ничего не делаем
+	// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	if (!HeroTarget || !IsValid(HeroTarget))
 	{
 		return;
