@@ -11,7 +11,23 @@ AEntity::AEntity()
 	PrimaryActorTick.bCanEverTick = true;
 	CollisionComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleCollision"));
     RootComponent = CollisionComponent;
+}
+
+void AEntity::BeginPlay()
+{
+    Super::BeginPlay();
+
 	CollisionComponent->SetGenerateOverlapEvents(true);
+    
+    for (TSubclassOf<UAbility> abilityClass : DefaultAbilities)
+    {
+        if (abilityClass)
+        {
+            auto ability = NewObject<UAbility>(this, abilityClass);
+            ability->Initialize(this, TargetClass, DamagedClasses);
+            abilities.Add(ability);
+        }
+    }
 }
 
 bool AEntity::UseCurrentAbility()
@@ -82,17 +98,3 @@ void AEntity::Tick(float DeltaTime)
     UseCurrentAbility();
 }
 
-void AEntity::BeginPlay()
-{
-    Super::BeginPlay();
-    
-    for (TSubclassOf<UAbility> abilityClass : DefaultAbilities)
-    {
-        if (abilityClass)
-        {
-            auto ability = NewObject<UAbility>(this, abilityClass);
-            ability->Initialize(this, TargetClass, DamagedClasses);
-            abilities.Add(ability);
-        }
-    }
-}

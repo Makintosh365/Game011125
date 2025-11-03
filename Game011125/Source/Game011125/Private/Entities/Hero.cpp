@@ -32,8 +32,7 @@ void AHero::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AHero::Tick(float DeltaSeconds)
 {
-    // Do NOT call Super::Tick to avoid ticking abilities/other base systems.
-    // Super::Tick(DeltaSeconds);
+    Super::Tick(DeltaSeconds);
 
     ATargetPoint* Target = GetCurrentPoint();
     if (!Target) return;
