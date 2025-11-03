@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Entities/Entity.h"
+
 #include "PlayerCharacter.generated.h"
+
 
 UCLASS(Abstract, Blueprintable)
 class GAME011125_API APlayerCharacter : public AEntity
@@ -22,4 +24,5 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
 };

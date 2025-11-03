@@ -4,10 +4,13 @@
 #include "Entities/Enemy.h"
 #include "Entities/Hero.h"
 #include "Kismet/GameplayStatics.h"
+#include "Stats.h"
 
 AEnemy::AEnemy()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	Stats = MakeEnemyDefaultStats();
 }
 
 //------------------------------------------------------------------------------

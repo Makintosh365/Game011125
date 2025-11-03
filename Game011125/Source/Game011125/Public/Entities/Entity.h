@@ -6,6 +6,7 @@
 #include "Interfaces/ICanUseAbilities.h"
 #include "Interfaces/ICanTakeDamage.h"
 #include "Interfaces/ICanUseBuffs.h"
+#include "Stats.h"
 
 #include "Entity.generated.h"
 
@@ -44,6 +45,8 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
+	virtual void OnDeath();
 
 	UPROPERTY(BlueprintReadOnly, Category = "Entity|Abilities")
 	TArray<TObjectPtr<UAbility>> abilities;
