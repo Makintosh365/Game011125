@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Ability.h"
+#include "Abilities/Ability.h"
 #include "FireballAbility.generated.h"
 
 /**
  * 
  */
-UCLASS(Blueprintable)
+UCLASS(Abstract, Blueprintable)
 class GAME011125_API UFireballAbility : public UAbility
 {
 	GENERATED_BODY()
@@ -18,16 +18,16 @@ public:
 	UFireballAbility();
 
 	//BaseDamage
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Fireball")
-	float BaseDamage;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Fireball", meta = (ClampMin = 0.0f))
+	float BaseDamage = 0.0f;
 
 	//Speed
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Fireball")
-	float ProjectileSpeed;
+	float ProjectileSpeed = 1200.f;
 
 	// ExplosionRadius (Aoe)
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Fireball")
-	float ExplosionRadius;
+	float ExplosionRadius = 300.f;
 	
 	void Use() override;
 	bool IsReady() override;

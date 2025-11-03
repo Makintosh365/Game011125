@@ -62,8 +62,11 @@ void AEnemy::Tick(float DeltaTime)
 	ToHero.Normalize();
 	const FVector DeltaMove = ToHero * Stats.CurrentSpeed * DeltaTime;
 
-	// AddActorWorldOffset with sweep = true so we don't walk through walls
-	AddActorWorldOffset(DeltaMove, true);
+	if (FollowHero)
+	{
+		// AddActorWorldOffset with sweep = true so we don't walk through walls
+		AddActorWorldOffset(DeltaMove, true);
+	}
 }
 
 void AEnemy::SetHeroTarget(AHero* NewHero)

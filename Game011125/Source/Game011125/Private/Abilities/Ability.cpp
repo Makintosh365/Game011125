@@ -13,7 +13,6 @@ UAbility::UAbility()
 
 	bIsReady = true;
 	CooldownTimer = 0.0f;
-	OwnerEntity = nullptr;
 }
 
 //This method will be called from the owner's Ticket (Entity)
@@ -36,7 +35,7 @@ void UAbility::Use()
 	{
 		bIsReady = false;
 		CooldownTimer = Cooldown;
-		UE_LOG(LogTemp, Warning, TEXT("Base Ability Used. This should be overridden."));
+		UE_LOG(LogTemp, Warning, TEXT("Base Ability Used. This should be extended."));
 	}
 }
 
@@ -44,4 +43,9 @@ void UAbility::Use()
 bool UAbility::IsReady()
 {
 	return bIsReady;
+}
+
+void UAbility::SetOwner(ICanUseAbilities* owner)
+{
+	ownerEntity = owner;
 }

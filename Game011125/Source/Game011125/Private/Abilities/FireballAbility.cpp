@@ -1,27 +1,18 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "FireballAbility.h"
+#include "Abilities/FireballAbility.h"
+#include "Entities/Entity.h"
 
 UFireballAbility::UFireballAbility()
 {
 	Name = TEXT("Fireball");
-	Cooldown = 10.0f;			// ??
-	BaseDamage = 10.0f;         // ?? must be from damager
-	ProjectileSpeed = 1200.f;
-	ExplosionRadius = 300.f;	// blueprint?
-
-	// ready by default
-	bIsReady = true;
-	CooldownTimer = 0.f;
-
-	bIsSplashDamage = true;
-	DamageMultiplier = 3.f;
 }
 
 bool UFireballAbility::IsReady()
 {
-	return bIsReady && OwnerEntity != nullptr;     
+	return bIsReady && ownerEntity != nullptr;     
 }
+
 void UFireballAbility::Use()
 {
 	if (!IsReady())
@@ -30,9 +21,9 @@ void UFireballAbility::Use()
 	}
 
 	UWorld* World = nullptr;
-	if (OwnerEntity)
+	if (ownerEntity)
 	{
-		AActor* OwnerActor = Cast<AActor>(OwnerEntity);
+		AActor* OwnerActor = Cast<AActor>(ownerEntity);
 		if (OwnerActor)
 		{
 			World = OwnerActor->GetWorld();
@@ -56,7 +47,7 @@ void UFireballAbility::Use()
 	// spawn position + Z delta
 	FVector SpawnLocation = FVector::ZeroVector;
 	FRotator SpawnRotation = Dir.Rotation();
-	AActor* OwnerActor = Cast<AActor>(OwnerEntity);
+	AActor* OwnerActor = Cast<AActor>(ownerEntity);
 	if (OwnerActor)
 	{
 		SpawnLocation = OwnerActor->GetActorLocation() + FVector(0,0,50.f); 
@@ -70,6 +61,7 @@ void UFireballAbility::Use()
 	bIsReady = false;
 	CooldownTimer = Cooldown;
 }
+
 void UFireballAbility::Tick(float DeltaTime)
 {
 	if (!bIsReady)
