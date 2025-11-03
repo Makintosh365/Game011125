@@ -7,7 +7,7 @@
 
 UThrowProjectileAbility::UThrowProjectileAbility()
 {
-	Name = TEXT("Fireball");
+	Name = TEXT("Projectile");
 }
 
 bool UThrowProjectileAbility::IsReady()
