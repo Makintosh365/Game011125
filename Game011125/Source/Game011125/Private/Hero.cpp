@@ -1,25 +1,32 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
+// Hero.cpp
+// -----------------------------------------------------------------------------
+
 #include "Hero.h"
 
+AHero* AHero::CurrentHero = nullptr;
 
-// Sets default values
 AHero::AHero()
 {
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-// Called when the game starts or when spawned
 void AHero::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	CurrentHero = this;
 }
 
-// Called every frame
-void AHero::Tick(float DeltaTime)
+void AHero::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	Super::Tick(DeltaTime);
+	if (CurrentHero == this)
+	{
+		CurrentHero = nullptr;
+	}
+
+	Super::EndPlay(EndPlayReason);
 }
