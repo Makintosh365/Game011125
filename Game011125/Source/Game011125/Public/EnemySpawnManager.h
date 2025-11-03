@@ -83,7 +83,6 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Spawn|Nav")
     int32 TriesPerEnemy = 12;
 
-    // Навмэш — опционально (по умолчанию выключено, чтобы не править Build.cs)
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Spawn|Nav")
     bool bProjectOnNavMesh = false;
 
@@ -114,7 +113,6 @@ private:
 
     bool FindSpawnPointInFront(const FVector& Origin, const FRotator& Facing, FVector& OutPoint) const;
 
-    // Эти две функции теперь не тянут внешние символы, если NavMesh выключен
     bool ProjectToNavMeshIfNeeded(const FVector& InPoint, FVector& OutPoint) const;
     void AdjustToGroundIfNeeded(FVector& InOutPoint) const;
 
