@@ -11,32 +11,11 @@ AHero::AHero()
 
     Stats = MakePlayerDefaultStats();
 }
-void AHero::UpdateHealthBar()
-{
-    if (ScreenHealthBarWidget)
-    {
-        float HealthPercent = Stats.CurrentHP / Stats.CurrentMaxHP;
-        ScreenHealthBarWidget->SetHealthPercent(HealthPercent);
-    }
-}
+
 void AHero::BeginPlay()
 {
     Super::BeginPlay();
     CurrentHero = this;
-    if (ScreenHealthBarClass)
-    {
-        APlayerController* PC = GetWorld()->GetFirstPlayerController();
-        if (PC)
-        {
-            ScreenHealthBarWidget = CreateWidget<UHealthBarWidget>(PC, ScreenHealthBarClass);
-
-            if (ScreenHealthBarWidget)
-            {
-                ScreenHealthBarWidget->AddToViewport();
-            }
-        }
-    }
-    UpdateHealthBar();
 
     if (Waypoints.Num() == 0)
     {

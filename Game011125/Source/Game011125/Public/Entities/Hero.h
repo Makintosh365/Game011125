@@ -6,6 +6,9 @@
 #include "HealthBarWidget.h"
 #include "Hero.generated.h"
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHealthChangedSignature, float, NewHealth, float, MaxHealth);
+
 class ATargetPoint;
 
 /**
@@ -22,13 +25,8 @@ class GAME011125_API AHero : public AEntity
 public:
     AHero();
 
-    UPROPERTY(EditDefaultsOnly, Category = "UI")
-    TSubclassOf<UHealthBarWidget> ScreenHealthBarClass;
-
-    UPROPERTY(BlueprintReadOnly, Category = "UI")
-    TObjectPtr<UHealthBarWidget> ScreenHealthBarWidget;
-
-    void UpdateHealthBar();
+    UPROPERTY(BlueprintAssignable, Category = "Hero|Events")
+    FOnHealthChangedSignature OnHealthChanged;
 
     UFUNCTION(BlueprintCallable, Category = "Hero")
     static AHero* GetCurrentHero() { return CurrentHero; }

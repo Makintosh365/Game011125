@@ -38,7 +38,7 @@ bool AEntity::TakeDamage(float damage)
     AHero* Hero = Cast<AHero>(this);
     if (Hero)
     {
-        Hero->UpdateHealthBar(); //update UI
+        Hero->OnHealthChanged.Broadcast(Stats.CurrentHP, Stats.CurrentMaxHP);
     }
 
     if (Stats.CurrentHP <= 0.0f)
