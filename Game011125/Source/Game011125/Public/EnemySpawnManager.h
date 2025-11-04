@@ -60,6 +60,9 @@ public:
 
     UFUNCTION(BlueprintCallable, Category="Spawn")
     float GetRemainingCooldown(int32 SlotIndex) const;
+    
+        UFUNCTION(BlueprintPure)
+    bool IsSlotReady(int32 SlotIndex) const;
 
     UFUNCTION(BlueprintCallable, Category="Spawn")
     void SetHero(AHero* InHero);
@@ -108,7 +111,7 @@ private:
     UPROPERTY(Transient)
     TArray<FTimerHandle> PeriodicTimerHandles;
 
-    bool IsSlotReady(int32 SlotIndex) const;
+   
     bool GetHeroForwardTransform(FVector& OutLocation, FRotator& OutRotation) const;
 
     bool FindSpawnPointInFront(const FVector& Origin, const FRotator& Facing, FVector& OutPoint) const;
