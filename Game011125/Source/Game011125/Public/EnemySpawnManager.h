@@ -21,7 +21,7 @@ struct FEnemySpawnSlot
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Cooldown")
     float Cooldown = 3.0f;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Cooldown")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Cooldown")
     float NextReadyTime = 0.0f;
 };
 

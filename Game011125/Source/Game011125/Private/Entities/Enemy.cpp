@@ -61,10 +61,13 @@ void AEnemy::Tick(float DeltaTime)
 	ToHero.Normalize();
 	const FVector DeltaMove = ToHero * Stats.CurrentSpeed * DeltaTime;
 
+	FRotator FacingRotator = ToHero.Rotation();
+	
 	if (FollowHero)
 	{
 		// AddActorWorldOffset with sweep = true so we don't walk through walls
 		AddActorWorldOffset(DeltaMove, true);
+		SetActorRotation(FacingRotator, ETeleportType::None);
 	}
 }
 
