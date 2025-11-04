@@ -25,6 +25,7 @@ void AUnheroGameModeBase::BeginPlay()
 
 AUnheroGameModeBase::AUnheroGameModeBase()
 {
+	DefaultPawnClass = nullptr;
 	PlayerControllerClass = AUnheroPlayerController::StaticClass();
 }
 
