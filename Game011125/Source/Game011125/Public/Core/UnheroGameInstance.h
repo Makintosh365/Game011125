@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract, Blueprintable)
 class GAME011125_API UUnheroGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
