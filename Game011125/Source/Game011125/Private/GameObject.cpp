@@ -24,7 +24,7 @@ void AGameObject::Tick(float DeltaTime)
 
 //--------------------------------------------------------------------------
 // --- Default death handler: just destroy the actor
-void AGameObject::OnDeath_Implementation()
+void AGameObject::OnDeath()
 {
     Destroy();
 }

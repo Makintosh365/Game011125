@@ -38,8 +38,5 @@ protected:
 
 	//--------------------------------------------------------------------------
 	// --- Death handling (by default just destroy the actor)
-	UFUNCTION(BlueprintNativeEvent, Category = "Combat")
-	void OnDeath();
-
-	virtual void OnDeath_Implementation();
+	virtual void OnDeath();
 };
