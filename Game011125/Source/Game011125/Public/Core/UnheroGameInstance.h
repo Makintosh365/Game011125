@@ -18,5 +18,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Level")
 	FName DefaultLevelName;
 	
+	UPROPERTY(EditDefaultsOnly, Category = "Level")
+	bool StartWithDefaultLevel = true;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	bool LoadUI = true;
+	
 	virtual void Init() override;
 };
