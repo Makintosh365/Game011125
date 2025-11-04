@@ -15,5 +15,8 @@ class GAME011125_API UUnheroGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(EditDefaultsOnly, Category = "Level")
+	FName DefaultLevelName;
+	
 	virtual void Init() override;
 };

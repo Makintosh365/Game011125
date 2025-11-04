@@ -9,5 +9,5 @@ void UUnheroGameInstance::Init()
 {
 	Super::Init();
 
-	UGameplayStatics::OpenLevel(GetWorld(), "MainMenu");
+	UGameplayStatics::OpenLevel(GetWorld(), DefaultLevelName);
 }
