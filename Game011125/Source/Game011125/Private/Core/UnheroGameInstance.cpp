@@ -9,6 +9,6 @@ void UUnheroGameInstance::Init()
 {
 	Super::Init();
 
-	if (StartWithDefaultLevel)
-		UGameplayStatics::OpenLevel(GetWorld(), DefaultLevelName);
+	//if (StartWithDefaultLevel)
+	//	UGameplayStatics::OpenLevel(GetWorld(), DefaultLevelName);
 }

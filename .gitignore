@@ -76,4 +76,5 @@
 **/DerivedDataCache/*
 
 # Packaged projects
-**/Packaged/
+**/Packaged/*
+!**/package/*.rar
