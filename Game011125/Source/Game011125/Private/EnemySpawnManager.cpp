@@ -54,6 +54,7 @@ void AEnemySpawnManager::SetHero(AHero* InHero)
     Hero = InHero;
 }
 
+
 bool AEnemySpawnManager::IsSlotReady(int32 SlotIndex) const
 {
     if (!Slots.IsValidIndex(SlotIndex)) return false;
