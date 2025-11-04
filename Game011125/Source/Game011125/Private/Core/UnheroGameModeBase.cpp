@@ -2,6 +2,7 @@
 
 #include "Core/UnheroGameModeBase.h"
 #include "Core/UnheroGameInstance.h"
+#include "Core/UnheroPlayerController.h"
 
 
 void AUnheroGameModeBase::BeginPlay()
@@ -20,6 +21,11 @@ void AUnheroGameModeBase::BeginPlay()
 			}
 		}
 	}
+}
+
+AUnheroGameModeBase::AUnheroGameModeBase()
+{
+	PlayerControllerClass = AUnheroPlayerController::StaticClass();
 }
 
 void AUnheroGameModeBase::PostInitProperties()

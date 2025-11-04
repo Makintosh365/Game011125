@@ -19,6 +19,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	AUnheroGameModeBase();
+	
 	UPROPERTY(EditAnywhere, Category = "Widget")
 	TSubclassOf<UUserWidget> LevelStartupWidgetClass;
 	
