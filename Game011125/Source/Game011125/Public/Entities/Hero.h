@@ -28,6 +28,10 @@ protected:
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
     virtual void Tick(float DeltaSeconds) override;
 
+	//--------------------------------------------------------------------------
+	// --- Death handling (by default just destroy the actor)
+    virtual void OnDeath() override;
+
 private:
     // Assign TargetPoint actors here (in instance Details). Order in array = path order.
     UPROPERTY(EditInstanceOnly, Category = "Hero|Path")

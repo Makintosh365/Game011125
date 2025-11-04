@@ -1,5 +1,6 @@
 #include "Entities/Hero.h"
 #include "Engine/TargetPoint.h"
+#include "Kismet/GameplayStatics.h"
 
 AHero* AHero::CurrentHero = nullptr;
 
@@ -64,6 +65,11 @@ void AHero::Tick(float DeltaSeconds)
     const FVector Forward = GetActorForwardVector();
     const FVector Delta = Forward * Speed * DeltaSeconds;
     AddActorWorldOffset(Delta, true); // sweep=true to respect collisions
+}
+
+void AHero::OnDeath()
+{
+    UGameplayStatics::OpenLevel(GetWorld(), FName("WinGame"));
 }
 
 ATargetPoint* AHero::GetCurrentPoint() const
